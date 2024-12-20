@@ -21,14 +21,32 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   }
 
   @override
-  Future<Either<Failure, User>> signUp(
-      {required String name,
-      required String email,
-      required String password}) async {
+  Future<Either<Failure, User>> signUp({
+    required String name,
+    required String email,
+    required String password,
+    required String birthday,
+    required int gender,
+  }) async {
     try {
       final user = await authRemoteRepository.signUp(
-          name: name, email: email, password: password);
+        name: name,
+        email: email,
+        password: password,
+        gender: gender,
+        birthday: birthday,
+      );
       return right(user);
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> validateToken() async {
+    try {
+      final response = await authRemoteRepository.validateToken();
+      return right(response);
     } catch (e) {
       return left(Failure(message: e.toString()));
     }

@@ -5,7 +5,13 @@ sealed class AuthState {}
 
 final class AuthInitial extends AuthState {}
 
-final class AuthLoadig extends AuthState {}
+final class AuthLoading extends AuthState {}
+
+final class AuthSignIn extends AuthState {
+  final bool signIn;
+
+  AuthSignIn({required this.signIn});
+}
 
 final class AuthSuccess extends AuthState {
   final User user;

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:safe_come_home/constants/routers.dart';
 import 'package:safe_come_home/initiate_dependences.dart';
 import 'package:safe_come_home/pages/splash/splash_page.dart';
+import 'package:safe_come_home/providers/auth/auth_cubit.dart';
 import 'package:safe_come_home/providers/splash/splash_cubit.dart';
 
 import 'constants/pallet.dart';
@@ -13,6 +15,7 @@ void main() async {
   await initiateDependencies();
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (_) => serviceLocator<SplashCubit>()),
+    BlocProvider(create: (_) => serviceLocator<AuthCubit>()),
   ], child: const MyApp()));
 }
 
@@ -30,6 +33,15 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Safe Come Home',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('es'), // Spanish
+      ],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

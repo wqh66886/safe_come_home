@@ -3,5 +3,5 @@ class Splash {
 }
 
 class Constants {
-  static const String baseUrl = "http://127.0.0.1/api";
+  static const String baseUrl = "http://192.168.2.102:5678/api";
 }
