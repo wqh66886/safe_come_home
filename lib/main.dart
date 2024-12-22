@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:safe_come_home/constants/routers.dart';
 import 'package:safe_come_home/initiate_dependences.dart';
+import 'package:safe_come_home/pages/home/home_page.dart';
 import 'package:safe_come_home/pages/splash/splash_page.dart';
 import 'package:safe_come_home/providers/auth/auth_cubit.dart';
 import 'package:safe_come_home/providers/splash/splash_cubit.dart';
@@ -27,7 +28,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthCubit>().validateToken();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -54,7 +60,15 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       onGenerateRoute: AppRouter().onGenerateRoute,
-      home: const SplashPage(),
+      home: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          if (state is AuthSignIn && state.signIn) {
+            return const HomePage();
+          } else {
+            return const SplashPage();
+          }
+        },
+      ),
     );
   }
 }
